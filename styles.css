@@ -1,0 +1,163 @@
+/*
+  COLOR SCHEME:
+  lapis-lazuli: #2364AA;
+  sky-blue: #3DA5D9;
+  moonstone-blue: #73BFB8;
+  golden-poppy: #FEC601;
+  vivid-tangelo: #EA7317;
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  background-color: #2364AA;
+}
+
+.subscribe-button {
+  margin: 20px 30px;
+  padding: 15px;
+  border: 3px solid  #3DA5D9;
+  border-radius: 5px;
+
+  font-family: helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 150%;
+  color: #FFF;
+  background-color: #3DA5D9;
+}
+
+.subscribe-button:hover {
+  cursor: pointer;
+  background-color: #FEC601;
+  border-color: #FEC601;
+  color: #2364AA;
+}
+
+.maker-container {
+  /*border: 3px solid purple;*/
+
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: stretch;
+
+}
+
+.maker-factory-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+/* I'd like a scroll bar on the rhs of this
+  (to the left of the vertical divider) to
+  scroll through nodes that we're editing */
+.maker-factory {
+  margin: 0 15px 0 0;
+  /*border: 3px solid green;*/
+  background-color: #73BFB8;
+  width: 300px;
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 0;
+}
+
+.factory-header {
+  border: 2px solid red;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.factory-header > li {
+  display: inline;
+
+  border: 2px solid green;
+  width: 60px;
+  height: 60px;
+}
+
+.factory-footer {
+  border: 2px solid red;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.factory-footer > li {
+  display: inline;
+
+  border: 2px solid green;
+  width: 80px;
+  height: 80px;
+}
+
+.editor-pane {
+  border: 2px solid black;
+  flex: 1;
+}
+
+.node-container {
+  width: 280px;
+  /*border: 2px solid blue;*/
+  border-radius: 10px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color: #EA7317;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.text-node {
+  background-color: #EA7317;
+}
+
+#vertical-divider {
+  margin: 0 5px;
+  width: 15px;
+  background-color: grey;
+  z-index: 2;
+}
+
+#vertical-divider:hover {
+  cursor: ew-resize;
+}
+
+.maker-sandbox {
+  /*border: 3px solid red;*/
+  background-color: #564138;
+  flex: 1;
+  z-index: 1;
+}
