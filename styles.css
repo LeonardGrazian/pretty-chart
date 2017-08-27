@@ -147,9 +147,7 @@ body {
   flex-direction: row;
   justify-content: center;
 
-  position: relative;/*
-  top: 50px;
-  left: 100px;*/
+  position: relative;
   z-index: 2;
 }
 

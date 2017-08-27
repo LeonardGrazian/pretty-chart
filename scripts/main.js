@@ -17,6 +17,7 @@ $( document ).ready(function () {
   // $( '.factory-header' ).sortable();
   // $( '.opt-button' ).draggable();
 
+
   var nodeDraggableArgs = { //'snap': '.editor-pane',
                               'drag': onDrag,
                               'stop': onStop,
@@ -31,13 +32,13 @@ $( document ).ready(function () {
     var $node = ui.draggable;
     if ( !$node.parent().hasClass('maker-sandbox') ) {
       var oldOffset = ui.offset;
-      $node.draggable(nodeDraggableArgs);
+      // $node.draggable(nodeDraggableArgs);
       $node.detach();
       $makerSandbox.append($node);
       // $( '.logo' ).eq(0).text($node.parent().hasClass('maker-sandbox'));
       $node.offset({'top': oldOffset.top, 'left': oldOffset.left});
 
-      alert('adding to sandbox');
+      // alert('adding to sandbox');
     }
   }
   var sandboxDroppableArgs = { 'tolerance': 'fit',
@@ -45,10 +46,25 @@ $( document ).ready(function () {
   $makerSandbox.droppable(sandboxDroppableArgs);
 
 
-  var onEditorDrop = function (event, ui) {};
-  var editorDroppableArgs = { 'tolerance': 'touch',
+  var $editorPane = $( '.editor-pane' ).eq(0);
+  var $logo = $( '.logo' ).eq(0);
+  var onEditorDrop = function (event, ui) {
+    var $node = ui.draggable;
+    // $logo.text($node.parent().attr('class'));
+    if ( !$node.parent().hasClass('editor-pane') ) {
+
+      $node.detach();
+      // $editorPane.text('added');
+      $editorPane.prepend($node);
+      $node.css({'top': 0, 'left': 0});
+
+      alert('adding to editor');
+    }
+    $logo.text('<!--' + $editorPane.html() + '-->');
+  }
+  var editorDroppableArgs = { 'tolerance': 'fit',
                                 'drop': onEditorDrop}
-  $( '.editor-pane' ).eq(0).droppable(editorDroppableArgs);
+  $editorPane.droppable(editorDroppableArgs);
 
 
   var $logo = $( '.logo' ).eq(0);
@@ -60,8 +76,7 @@ $( document ).ready(function () {
     //           + ui.position.top + ',   '
     //           + ui.position.left + '   |');
   }
-  // nodeDraggableArgs goes here
-  var generateSquare = function(){
+  var generateSquare = function () {
     var textNodeAttrs ={ 'class': 'text-node',
                           'rows': 8,
                           'cols': 25,
@@ -79,6 +94,9 @@ $( document ).ready(function () {
 
   // var makeSortable = function () {$( '.editor-pane' ).sortable();}
   // $( 'ul.factory-footer > li.diamond-generator' ).eq(0).click(makeSortable);
+
+  var update = function () {$logo.text('<!--' + $editorPane.html() + '-->');}
+  $( 'ul.factory-footer > li.triangle-generator' ).eq(0).click(update);
 });
 
 /* WHAT I WANT:
@@ -90,8 +108,8 @@ $( document ).ready(function () {
     -if node is not dropped in sandbox, node floats back to editor (DONE)
   -move items around sandbox, cannot cross boundaries (DONE)
   -move items from sandbox to list
-    -this only happens once the node snaps to the editor
-    -if a snap does not occur, the node drifts back to sandbox
+    -this only happens once the node snaps to the editor (DONE)
+    -if a snap does not occur, the node drifts back to sandbox (DONE)
     -re-adds node to appropriate place in editor-pane
-    -removes element from sandbox
+    -removes element from sandbox (DONE)
 */
