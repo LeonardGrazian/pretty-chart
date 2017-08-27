@@ -8,53 +8,53 @@ var getRelativePosition = function ($anchorElem, $elem) {
   return {'top': newTop, 'left': newLeft};
 }
 
+
 $( document ).ready(function () {
 
-  var resizeHandles = {'e': '.ui-resizable-e'};
-  $( '.maker-factory-container' ).eq(0).resizable({handles: resizeHandles});
-
-
-  // $( '.factory-header' ).sortable();
-  // $( '.opt-button' ).draggable();
-
-
+  /* PARAMS */
   var nodeDraggableArgs = { //'snap': '.editor-pane',
-                              'drag': onDrag,
-                              'stop': onStop,
                               //'connectToSortable': '.editor-pane',
                               //'helper': 'clone',
                               'snap': '.editor-pane',
                               'snapMode': 'inner',
                               'revert': 'invalid',
                               'containment': '.maker-container' };
+
+  var sandboxDroppableArgs = { 'tolerance': 'fit',
+                                'drop': onSandboxDrop };
+
+  var editorDroppableArgs = { 'tolerance': 'fit',
+                              'drop': onEditorDrop};
+  /* END PARAMS */
+
+
+  // Make Vertical Divider Movable
+  var resizeHandles = {'e': '.ui-resizable-e'};
+  $( '.maker-factory-container' ).eq(0).resizable({handles: resizeHandles});
+
+
+  // Make Sandbox Droppable
   var $makerSandbox = $( '.maker-sandbox' ).eq(0);
   var onSandboxDrop = function (event, ui) {
     var $node = ui.draggable;
     if ( !$node.parent().hasClass('maker-sandbox') ) {
       var oldOffset = ui.offset;
-      // $node.draggable(nodeDraggableArgs);
       $node.detach();
       $makerSandbox.append($node);
-      // $( '.logo' ).eq(0).text($node.parent().hasClass('maker-sandbox'));
       $node.offset({'top': oldOffset.top, 'left': oldOffset.left});
-
-      // alert('adding to sandbox');
     }
   }
-  var sandboxDroppableArgs = { 'tolerance': 'fit',
-                                'drop': onSandboxDrop };
   $makerSandbox.droppable(sandboxDroppableArgs);
 
 
+  // Make Editor Droppable
   var $editorPane = $( '.editor-pane' ).eq(0);
   var $logo = $( '.logo' ).eq(0);
   var onEditorDrop = function (event, ui) {
     var $node = ui.draggable;
-    // $logo.text($node.parent().attr('class'));
     if ( !$node.parent().hasClass('editor-pane') ) {
 
       $node.detach();
-      // $editorPane.text('added');
       $editorPane.prepend($node);
       $node.css({'top': 0, 'left': 0});
 
@@ -62,20 +62,10 @@ $( document ).ready(function () {
     }
     $logo.text('<!--' + $editorPane.html() + '-->');
   }
-  var editorDroppableArgs = { 'tolerance': 'fit',
-                                'drop': onEditorDrop}
   $editorPane.droppable(editorDroppableArgs);
 
 
-  var $logo = $( '.logo' ).eq(0);
-  var onDrag = function (event, ui) {
-    // $logo.text(ui.position.top + ',  ' + ui.position.left);
-  }
-  var onStop = function (event, ui) {
-    // $logo.text($logo.text() + '   '
-    //           + ui.position.top + ',   '
-    //           + ui.position.left + '   |');
-  }
+  // Create Square Node
   var generateSquare = function () {
     var textNodeAttrs ={ 'class': 'text-node',
                           'rows': 8,
@@ -89,11 +79,12 @@ $( document ).ready(function () {
 
     $( '.editor-pane' ).eq(0).prepend($nodeContainer);
   };
-
   $( 'ul.factory-footer > li.square-generator' ).eq(0).click(generateSquare);
+
 
   // var makeSortable = function () {$( '.editor-pane' ).sortable();}
   // $( 'ul.factory-footer > li.diamond-generator' ).eq(0).click(makeSortable);
+
 
   var update = function () {$logo.text('<!--' + $editorPane.html() + '-->');}
   $( 'ul.factory-footer > li.triangle-generator' ).eq(0).click(update);
