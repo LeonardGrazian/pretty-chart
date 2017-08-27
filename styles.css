@@ -7,6 +7,15 @@
   vivid-tangelo: #EA7317;
 */
 
+/*
+  COLOR SCHEME (COOL COLORS):
+  platinum: #E6E8E6;
+  gray: #CED0CE;
+  cambridge-blue: #9FB8AD;
+  gray-asparagus: #475841;
+  black-olive: 3F403F;
+*/
+
 * {
   margin: 0;
   padding: 0;
@@ -18,6 +27,7 @@ html {
 
   display: flex;
   flex-direction: column;
+
 }
 
 body {
@@ -54,8 +64,6 @@ body {
 }
 
 .maker-container {
-  /*border: 3px solid purple;*/
-
   flex: 1;
   display: flex;
   justify-content: flex-start;
@@ -76,7 +84,6 @@ body {
   scroll through nodes that we're editing */
 .maker-factory {
   margin: 0 15px 0 0;
-  /*border: 3px solid green;*/
   background-color: #73BFB8;
   width: 300px;
 
@@ -85,7 +92,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  z-index: 0;
 }
 
 .factory-header {
@@ -124,12 +130,14 @@ body {
 
 .editor-pane {
   border: 2px solid black;
+  width: 240px;
   flex: 1;
+
+  position: relative;
 }
 
 .node-container {
-  width: 280px;
-  /*border: 2px solid blue;*/
+  width: 240px;
   border-radius: 10px;
   padding-top: 50px;
   padding-bottom: 50px;
@@ -138,6 +146,11 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  position: relative;/*
+  top: 50px;
+  left: 100px;*/
+  z-index: 2;
 }
 
 .text-node {
@@ -148,7 +161,6 @@ body {
   margin: 0 5px;
   width: 15px;
   background-color: grey;
-  z-index: 2;
 }
 
 #vertical-divider:hover {
@@ -156,8 +168,9 @@ body {
 }
 
 .maker-sandbox {
-  /*border: 3px solid red;*/
   background-color: #564138;
   flex: 1;
+
+  position: relative;
   z-index: 1;
 }
