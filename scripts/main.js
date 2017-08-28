@@ -1,4 +1,12 @@
 
+/* KNOWN BUGS
+  -it takes two drags to move node to sandbox
+  -when there are nodes in the editor and the
+    divider is pulled left over them, the show
+    over the sandbox
+  -cannot edit node text in editor (cannot edit text in sandbox!)
+*/
+
 
 /* UTILITY FUNCTIONS */
 var getRelativePosition = function ($anchorElem, $elem) {
@@ -11,10 +19,58 @@ var getRelativePosition = function ($anchorElem, $elem) {
 
 $( document ).ready(function () {
 
+  // for debugging
+  $( '.factory-header' ).sortable();
+
+  /* IMPORTANT DOM ELEMENTS */
+  var $makerFactoryContainer = $( '.maker-factory-container' ).eq(0);
+  var $makerSandbox = $( '.maker-sandbox' ).eq(0);
+  var $editorPane = $( '.editor-pane' ).eq(0);
+  var $logo = $( '.logo' ).eq(0);
+
+
+  /* FUNCTIONS */
+  var onSandboxDrop = function (event, ui) {
+    var $node = $('#' + ui.draggable.attr('id'));
+
+    if ( !$node.hasClass('disable-sort') ) {
+      $node.addClass('disable-sort');
+    }
+
+    if ( $node.draggable('option', 'disabled') ) {
+      $node.draggable('enable');
+    }
+
+    if ( !$node.parent().hasClass('maker-sandbox') ) {
+      $node.detach();
+      $makerSandbox.append($node);
+
+      var oldOffset = ui.offset;
+      $node.offset({'top': oldOffset.top, 'left': oldOffset.left});
+    }
+  }
+
+  var onEditorDrop = function (event, ui) {
+    var $node = $('#' + ui.draggable.attr('id')); //ui.draggable;
+
+    if ( $node.hasClass('disable-sort') ) {
+      $node.removeClass('disable-sort');
+    }
+
+    if ( !$node.draggable('option', 'disabled') ) {
+      $node.draggable('disable');
+    }
+
+    if ( !$node.parent().hasClass('editor-pane') ) {
+      $node.detach();
+      $editorPane.prepend($node);
+      $node.css({'top': 0, 'left': 0});
+    }
+  }
+
+
   /* PARAMS */
-  var nodeDraggableArgs = { //'snap': '.editor-pane',
-                              //'connectToSortable': '.editor-pane',
-                              //'helper': 'clone',
+  var nodeDraggableArgs = {   'disabled': true,
                               'snap': '.editor-pane',
                               'snapMode': 'inner',
                               'revert': 'invalid',
@@ -24,48 +80,29 @@ $( document ).ready(function () {
                                 'drop': onSandboxDrop };
 
   var editorDroppableArgs = { 'tolerance': 'fit',
-                              'drop': onEditorDrop};
+                              'drop': onEditorDrop };
+
+  var editorSortableArgs = { 'containment': 'body',
+                              'cancel': '.disable-sort',
+                            };
   /* END PARAMS */
 
 
   // Make Vertical Divider Movable
   var resizeHandles = {'e': '.ui-resizable-e'};
-  $( '.maker-factory-container' ).eq(0).resizable({handles: resizeHandles});
+  $makerFactoryContainer.resizable({handles: resizeHandles});
 
 
   // Make Sandbox Droppable
-  var $makerSandbox = $( '.maker-sandbox' ).eq(0);
-  var onSandboxDrop = function (event, ui) {
-    var $node = ui.draggable;
-    if ( !$node.parent().hasClass('maker-sandbox') ) {
-      var oldOffset = ui.offset;
-      $node.detach();
-      $makerSandbox.append($node);
-      $node.offset({'top': oldOffset.top, 'left': oldOffset.left});
-    }
-  }
   $makerSandbox.droppable(sandboxDroppableArgs);
 
 
   // Make Editor Droppable
-  var $editorPane = $( '.editor-pane' ).eq(0);
-  var $logo = $( '.logo' ).eq(0);
-  var onEditorDrop = function (event, ui) {
-    var $node = ui.draggable;
-    if ( !$node.parent().hasClass('editor-pane') ) {
-
-      $node.detach();
-      $editorPane.prepend($node);
-      $node.css({'top': 0, 'left': 0});
-
-      alert('adding to editor');
-    }
-    $logo.text('<!--' + $editorPane.html() + '-->');
-  }
   $editorPane.droppable(editorDroppableArgs);
 
 
   // Create Square Node
+  var id_counter = 0;
   var generateSquare = function () {
     var textNodeAttrs ={ 'class': 'text-node',
                           'rows': 8,
@@ -73,20 +110,26 @@ $( document ).ready(function () {
                           'placeholder': 'Enter your shit here' };
     var $textNode = $('<textarea>', textNodeAttrs);
 
-    var $nodeContainer = $('<li>', {'class': 'node-container'});
+    var $nodeContainer = $('<li>', {'id': id_counter, 'class': 'node-container'});
     $nodeContainer.append($textNode);
     $nodeContainer.draggable(nodeDraggableArgs);
 
     $( '.editor-pane' ).eq(0).prepend($nodeContainer);
+
+    id_counter = id_counter + 1;
   };
   $( 'ul.factory-footer > li.square-generator' ).eq(0).click(generateSquare);
 
 
-  // var makeSortable = function () {$( '.editor-pane' ).sortable();}
-  // $( 'ul.factory-footer > li.diamond-generator' ).eq(0).click(makeSortable);
+  // Make Editor Sortable
+  var makeSortable = function () {
+    $editorPane.sortable(editorSortableArgs);
+    // $editorPane.disableSelection();
+  }
+  $( 'ul.factory-footer > li.diamond-generator' ).eq(0).click(makeSortable);
 
 
-  var update = function () {$logo.text('<!--' + $editorPane.html() + '-->');}
+  var update = function () {$logo.text('<!--' + $makerSandbox.html() + '-->');}
   $( 'ul.factory-footer > li.triangle-generator' ).eq(0).click(update);
 });
 
@@ -103,4 +146,6 @@ $( document ).ready(function () {
     -if a snap does not occur, the node drifts back to sandbox (DONE)
     -re-adds node to appropriate place in editor-pane
     -removes element from sandbox (DONE)
+
+  -TODO: make sure nodes hide behind sandbox when we pull the divider far left
 */

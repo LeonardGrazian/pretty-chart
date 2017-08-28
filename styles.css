@@ -136,6 +136,10 @@ body {
   position: relative;
 }
 
+.editor-placeholder {
+  display: none;
+}
+
 .node-container {
   width: 240px;
   border-radius: 10px;
