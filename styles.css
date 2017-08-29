@@ -130,7 +130,9 @@ body {
 
 .editor-pane {
   border: 2px solid black;
-  width: 240px;
+  width: 240px;/*
+  overflow-x: visible;
+  overflow-y: scroll;*/
   flex: 1;
 
   position: relative;
@@ -172,6 +174,7 @@ body {
 .maker-sandbox {
   background-color: #564138;
   flex: 1;
+  /* overflow: scroll; */
 
   position: relative;
   z-index: 1;

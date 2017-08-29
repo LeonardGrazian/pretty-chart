@@ -4,7 +4,6 @@
   -when there are nodes in the editor and the
     divider is pulled left over them, the show
     over the sandbox
-  -cannot edit node text in editor (cannot edit text in sandbox!)
 */
 
 
@@ -30,12 +29,9 @@ $( document ).ready(function () {
 
 
   /* FUNCTIONS */
+  // var $droppedNode = null;
   var onSandboxDrop = function (event, ui) {
-    var $node = $('#' + ui.draggable.attr('id'));
-
-    if ( !$node.hasClass('disable-sort') ) {
-      $node.addClass('disable-sort');
-    }
+    var $node = ui.draggable; //$('#' + ui.draggable.attr('id'));
 
     if ( $node.draggable('option', 'disabled') ) {
       $node.draggable('enable');
@@ -47,15 +43,12 @@ $( document ).ready(function () {
 
       var oldOffset = ui.offset;
       $node.offset({'top': oldOffset.top, 'left': oldOffset.left});
+
     }
   }
 
   var onEditorDrop = function (event, ui) {
     var $node = $('#' + ui.draggable.attr('id')); //ui.draggable;
-
-    if ( $node.hasClass('disable-sort') ) {
-      $node.removeClass('disable-sort');
-    }
 
     if ( !$node.draggable('option', 'disabled') ) {
       $node.draggable('disable');
@@ -82,9 +75,7 @@ $( document ).ready(function () {
   var editorDroppableArgs = { 'tolerance': 'fit',
                               'drop': onEditorDrop };
 
-  var editorSortableArgs = { 'containment': 'body',
-                              'cancel': '.disable-sort',
-                            };
+  var editorSortableArgs = { 'containment': 'body'  };
   /* END PARAMS */
 
 
@@ -104,19 +95,19 @@ $( document ).ready(function () {
   // Create Square Node
   var id_counter = 0;
   var generateSquare = function () {
-    var textNodeAttrs ={ 'class': 'text-node',
+    var textNodeAttrs = { 'class': 'text-node',
                           'rows': 8,
                           'cols': 25,
                           'placeholder': 'Enter your shit here' };
     var $textNode = $('<textarea>', textNodeAttrs);
 
-    var $nodeContainer = $('<li>', {'id': id_counter, 'class': 'node-container'});
+    var $nodeContainer = $('<li>', { 'id': id_counter, 'class': 'node-container' });
     $nodeContainer.append($textNode);
     $nodeContainer.draggable(nodeDraggableArgs);
 
     $( '.editor-pane' ).eq(0).prepend($nodeContainer);
 
-    id_counter = id_counter + 1;
+    id_counter++;
   };
   $( 'ul.factory-footer > li.square-generator' ).eq(0).click(generateSquare);
 
@@ -124,13 +115,16 @@ $( document ).ready(function () {
   // Make Editor Sortable
   var makeSortable = function () {
     $editorPane.sortable(editorSortableArgs);
-    // $editorPane.disableSelection();
   }
   $( 'ul.factory-footer > li.diamond-generator' ).eq(0).click(makeSortable);
 
 
-  var update = function () {$logo.text('<!--' + $makerSandbox.html() + '-->');}
+  var update = function () { $logo.text('<!--' + $editorPane.html() + '-->'); }
   $( 'ul.factory-footer > li.triangle-generator' ).eq(0).click(update);
+
+
+  var getOffset = function () { $logo.text('<!--' + $( '#0' ).offset().left + '-->'); }
+  $( 'ul.factory-footer > li.rectangle-generator' ).eq(0).click(getOffset);
 });
 
 /* WHAT I WANT:
