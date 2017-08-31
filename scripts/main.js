@@ -31,30 +31,37 @@ $( document ).ready(function () {
   /* FUNCTIONS */
   // var $droppedNode = null;
   var onSandboxDrop = function (event, ui) {
-    var $node = ui.draggable; //$('#' + ui.draggable.attr('id'));
-
-    if ( $node.draggable('option', 'disabled') ) {
-      $node.draggable('enable');
-    }
-
-    if ( !$node.parent().hasClass('maker-sandbox') ) {
-      $node.detach();
-      $makerSandbox.append($node);
-
-      var oldOffset = ui.offset;
-      $node.offset({'top': oldOffset.top, 'left': oldOffset.left});
-
-    }
+    // var oldOffset = ui.draggable.offset();
+    ui.helper
+        .clone()
+        // .offset({'top': oldOffset.top, 'left': oldOffset.left})
+        .draggable()
+        .appendTo(this);
+    ui.draggable.remove();
+    // var $node = ui.draggable; //$('#' + ui.draggable.attr('id'));
+    //
+    // if ( !$node.parent().hasClass('maker-sandbox') ) {
+    //   if ( $node.draggable('option', 'disabled') ) {
+    //     $node.draggable('enable');
+    //   }
+    //
+    //   $node.detach();
+    //   this.append($node);
+    //
+    //   var oldOffset = ui.offset;
+    //   $node.offset({'top': oldOffset.top, 'left': oldOffset.left});
+    //
+    // }
   }
 
   var onEditorDrop = function (event, ui) {
     var $node = $('#' + ui.draggable.attr('id')); //ui.draggable;
 
-    if ( !$node.draggable('option', 'disabled') ) {
-      $node.draggable('disable');
-    }
-
     if ( !$node.parent().hasClass('editor-pane') ) {
+      if ( !$node.draggable('option', 'disabled') ) {
+        $node.draggable('disable');
+      }
+
       $node.detach();
       $editorPane.prepend($node);
       $node.css({'top': 0, 'left': 0});
@@ -63,11 +70,11 @@ $( document ).ready(function () {
 
 
   /* PARAMS */
-  var nodeDraggableArgs = {   'disabled': true,
-                              'snap': '.editor-pane',
+  var nodeDraggableArgs = {   'snap': '.editor-pane',
                               'snapMode': 'inner',
                               'revert': 'invalid',
-                              'containment': '.maker-container' };
+                              'containment': '.maker-container'
+                            };
 
   var sandboxDroppableArgs = { 'tolerance': 'fit',
                                 'drop': onSandboxDrop };
@@ -75,7 +82,7 @@ $( document ).ready(function () {
   var editorDroppableArgs = { 'tolerance': 'fit',
                               'drop': onEditorDrop };
 
-  var editorSortableArgs = { 'containment': 'body'  };
+  var editorSortableArgs = { 'containment': 'body' };
   /* END PARAMS */
 
 
@@ -104,6 +111,7 @@ $( document ).ready(function () {
     var $nodeContainer = $('<li>', { 'id': id_counter, 'class': 'node-container' });
     $nodeContainer.append($textNode);
     $nodeContainer.draggable(nodeDraggableArgs);
+    $nodeContainer.draggable('disable');
 
     $( '.editor-pane' ).eq(0).prepend($nodeContainer);
 

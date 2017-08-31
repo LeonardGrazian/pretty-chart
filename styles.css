@@ -36,6 +36,10 @@ body {
   flex-direction: column;
 }
 
+img {
+  width: 240px;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -159,6 +163,10 @@ body {
 
 .text-node {
   background-color: #EA7317;
+
+  /*position: absolute;
+  top: 0px;
+  left: 0px;*/
 }
 
 #vertical-divider {
@@ -174,7 +182,6 @@ body {
 .maker-sandbox {
   background-color: #564138;
   flex: 1;
-  /* overflow: scroll; */
 
   position: relative;
   z-index: 1;
