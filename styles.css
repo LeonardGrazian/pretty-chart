@@ -27,7 +27,6 @@ html {
 
   display: flex;
   flex-direction: column;
-
 }
 
 body {
@@ -67,6 +66,13 @@ img {
   color: #2364AA;
 }
 
+.maker-factory-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
 .maker-container {
   flex: 1;
   display: flex;
@@ -76,20 +82,8 @@ img {
 
 }
 
-.maker-factory-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-}
-
-/* I'd like a scroll bar on the rhs of this
-  (to the left of the vertical divider) to
-  scroll through nodes that we're editing */
 .maker-factory {
-  margin: 0 15px 0 0;
   background-color: #73BFB8;
-  width: 300px;
 
   flex: 1;
   display: flex;
@@ -134,39 +128,27 @@ img {
 
 .editor-pane {
   border: 2px solid black;
-  width: 240px;/*
-  overflow-x: visible;
-  overflow-y: scroll;*/
+  width: 260px;
+
+  overflow: scroll;
   flex: 1;
-
-  position: relative;
-}
-
-.editor-placeholder {
-  display: none;
 }
 
 .node-container {
   width: 240px;
-  border-radius: 10px;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  height: 240px;
   background-color: #EA7317;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
   position: relative;
-  z-index: 2;
 }
 
 .text-node {
   background-color: #EA7317;
+}
 
-  /*position: absolute;
-  top: 0px;
-  left: 0px;*/
+.buffer {
+  width: 15px;
+  height: 100%;
+  background-color: grey;
 }
 
 #vertical-divider {
@@ -182,7 +164,4 @@ img {
 .maker-sandbox {
   background-color: #564138;
   flex: 1;
-
-  position: relative;
-  z-index: 1;
 }

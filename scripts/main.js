@@ -7,6 +7,24 @@
 */
 
 
+/* WHAT I WANT:
+  -create nodes with button (DONE)
+  -have lovely list where I can edit several created nodes (DONE)
+  -drag items from list to sandbox (DONE)
+    -this removes element from editor-pane and adds it to maker-sandbox (DONE)
+    -node should stay where we drop it (DONE)
+    -if node is not dropped in sandbox, node floats back to editor (DONE)
+  -move items around sandbox, cannot cross boundaries (DONE)
+  -move items from sandbox to list
+    -this only happens once the node snaps to the editor (DONE)
+    -if a snap does not occur, the node drifts back to sandbox (DONE)
+    -re-adds node to appropriate place in editor-pane
+    -removes element from sandbox (DONE)
+
+  -TODO: make sure nodes hide behind sandbox when we pull the divider far left
+*/
+
+
 /* UTILITY FUNCTIONS */
 var getRelativePosition = function ($anchorElem, $elem) {
   var newTop = $elem.offset().top - $anchorElem.offset().top;
@@ -29,74 +47,42 @@ $( document ).ready(function () {
 
 
   /* FUNCTIONS */
-  // var $droppedNode = null;
-  var onSandboxDrop = function (event, ui) {
-    // var oldOffset = ui.draggable.offset();
-    ui.helper
-        .clone()
-        // .offset({'top': oldOffset.top, 'left': oldOffset.left})
-        .draggable()
-        .appendTo(this);
-    ui.draggable.remove();
-    // var $node = ui.draggable; //$('#' + ui.draggable.attr('id'));
-    //
-    // if ( !$node.parent().hasClass('maker-sandbox') ) {
-    //   if ( $node.draggable('option', 'disabled') ) {
-    //     $node.draggable('enable');
-    //   }
-    //
-    //   $node.detach();
-    //   this.append($node);
-    //
-    //   var oldOffset = ui.offset;
-    //   $node.offset({'top': oldOffset.top, 'left': oldOffset.left});
-    //
-    // }
-  }
-
-  var onEditorDrop = function (event, ui) {
-    var $node = $('#' + ui.draggable.attr('id')); //ui.draggable;
-
-    if ( !$node.parent().hasClass('editor-pane') ) {
-      if ( !$node.draggable('option', 'disabled') ) {
-        $node.draggable('disable');
-      }
-
-      $node.detach();
-      $editorPane.prepend($node);
-      $node.css({'top': 0, 'left': 0});
-    }
-  }
-
-
-  /* PARAMS */
   var nodeDraggableArgs = {   'snap': '.editor-pane',
                               'snapMode': 'inner',
                               'revert': 'invalid',
                               'containment': '.maker-container'
                             };
+  var onSandboxDrop = function (event, ui) {
+    ui.helper
+        .clone()
+        .draggable(nodeDraggableArgs)
+        .appendTo(this);
+    ui.draggable.remove();
+  }
 
-  var sandboxDroppableArgs = { 'tolerance': 'fit',
-                                'drop': onSandboxDrop };
+  var onEditorDrop = function (event, ui) {
+    var $node = ui.helper.clone();
+    $node.css({'position': 'relative', 'top': 0, 'left': 0});
+    $node.prependTo(this);
 
-  var editorDroppableArgs = { 'tolerance': 'fit',
-                              'drop': onEditorDrop };
-
-  var editorSortableArgs = { 'containment': 'body' };
-  /* END PARAMS */
-
-
-  // Make Vertical Divider Movable
-  var resizeHandles = {'e': '.ui-resizable-e'};
-  $makerFactoryContainer.resizable({handles: resizeHandles});
+    ui.draggable.remove();
+    $node.draggable('disable');
+  }
 
 
   // Make Sandbox Droppable
+  var sandboxDroppableArgs = { 'tolerance': 'fit',
+                                'drop': onSandboxDrop };
   $makerSandbox.droppable(sandboxDroppableArgs);
 
 
   // Make Editor Droppable
+  var editorDroppableArgs = { 'tolerance': 'fit',
+                              'drop': onEditorDrop };
   $editorPane.droppable(editorDroppableArgs);
+  // Make Editor Sortable
+  var editorSortableArgs = { 'containment': 'body' };
+  $editorPane.sortable(editorSortableArgs);
 
 
   // Create Square Node
@@ -120,34 +106,13 @@ $( document ).ready(function () {
   $( 'ul.factory-footer > li.square-generator' ).eq(0).click(generateSquare);
 
 
-  // Make Editor Sortable
-  var makeSortable = function () {
-    $editorPane.sortable(editorSortableArgs);
-  }
-  $( 'ul.factory-footer > li.diamond-generator' ).eq(0).click(makeSortable);
+  // $( 'ul.factory-footer > li.diamond-generator' ).eq(0).click();
 
 
   var update = function () { $logo.text('<!--' + $editorPane.html() + '-->'); }
   $( 'ul.factory-footer > li.triangle-generator' ).eq(0).click(update);
 
 
-  var getOffset = function () { $logo.text('<!--' + $( '#0' ).offset().left + '-->'); }
-  $( 'ul.factory-footer > li.rectangle-generator' ).eq(0).click(getOffset);
+  // var getOffset = function () { $logo.text('<!--' + $( '#0' ).offset().top + '-->'); }
+  // $( 'ul.factory-footer > li.rectangle-generator' ).eq(0).click(getOffset);
 });
-
-/* WHAT I WANT:
-  -create nodes with button (DONE)
-  -have lovely list where I can edit several created nodes (DONE)
-  -drag items from list to sandbox (DONE)
-    -this removes element from editor-pane and adds it to maker-sandbox (DONE)
-    -node should stay where we drop it (DONE)
-    -if node is not dropped in sandbox, node floats back to editor (DONE)
-  -move items around sandbox, cannot cross boundaries (DONE)
-  -move items from sandbox to list
-    -this only happens once the node snaps to the editor (DONE)
-    -if a snap does not occur, the node drifts back to sandbox (DONE)
-    -re-adds node to appropriate place in editor-pane
-    -removes element from sandbox (DONE)
-
-  -TODO: make sure nodes hide behind sandbox when we pull the divider far left
-*/
