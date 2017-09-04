@@ -4,6 +4,7 @@
   -when there are nodes in the editor and the
     divider is pulled left over them, the show
     over the sandbox
+  -Moving stuff in editor creates white space
 */
 
 
@@ -22,6 +23,7 @@
     -removes element from sandbox (DONE)
 
   -TODO: make sure nodes hide behind sandbox when we pull the divider far left
+  -TODO: resize node images so that their sizes are the same relative to their stroke width
 */
 
 
@@ -37,7 +39,7 @@ var getRelativePosition = function ($anchorElem, $elem) {
 $( document ).ready(function () {
 
   // for debugging
-  $( '.factory-header' ).sortable();
+  // $( '.factory-header' ).sortable();
 
   /* IMPORTANT DOM ELEMENTS */
   var $makerFactoryContainer = $( '.maker-factory-container' ).eq(0);
@@ -88,31 +90,71 @@ $( document ).ready(function () {
   // Create Square Node
   var id_counter = 0;
   var generateSquare = function () {
-    var textNodeAttrs = { 'class': 'text-node',
-                          'rows': 8,
-                          'cols': 25,
-                          'placeholder': 'Enter your shit here' };
-    var $textNode = $('<textarea>', textNodeAttrs);
+    // var textNodeAttrs = { 'class': 'text-node',
+    //                       'rows': 8,
+    //                       'cols': 25,
+    //                       'placeholder': 'Enter your shit here' };
+    // var $textNode = $('<textarea>', textNodeAttrs);
+
+    var imgAttrs = { 'src': 'images/red-square.svg' };
+    var $nodeImage = $('<img>', imgAttrs);
 
     var $nodeContainer = $('<li>', { 'id': id_counter, 'class': 'node-container' });
-    $nodeContainer.append($textNode);
+    $nodeContainer.append($nodeImage);
     $nodeContainer.draggable(nodeDraggableArgs);
     $nodeContainer.draggable('disable');
 
     $( '.editor-pane' ).eq(0).prepend($nodeContainer);
 
     id_counter++;
-  };
+  }
   $( 'ul.factory-footer > li.square-generator' ).eq(0).click(generateSquare);
 
 
-  // $( 'ul.factory-footer > li.diamond-generator' ).eq(0).click();
+  var generateTriangle = function () {
+    var imgAttrs = { 'src': 'images/green-triangle.svg' };
+    var $nodeImage = $('<img>', imgAttrs);
+
+    var $nodeContainer = $('<li>', { 'id': id_counter, 'class': 'node-container' });
+    $nodeContainer.append($nodeImage);
+    $nodeContainer.draggable(nodeDraggableArgs);
+    $nodeContainer.draggable('disable');
+
+    $( '.editor-pane' ).eq(0).prepend($nodeContainer);
+
+    id_counter++;
+  }
+  $( 'ul.factory-footer > li.triangle-generator' ).eq(0).click(generateTriangle);
 
 
-  var update = function () { $logo.text('<!--' + $editorPane.html() + '-->'); }
-  $( 'ul.factory-footer > li.triangle-generator' ).eq(0).click(update);
+  var generateCircle = function () {
+    var imgAttrs = { 'src': 'images/blue-circle.svg' };
+    var $nodeImage = $('<img>', imgAttrs);
+
+    var $nodeContainer = $('<li>', { 'id': id_counter, 'class': 'node-container' });
+    $nodeContainer.append($nodeImage);
+    $nodeContainer.draggable(nodeDraggableArgs);
+    $nodeContainer.draggable('disable');
+
+    $( '.editor-pane' ).eq(0).prepend($nodeContainer);
+
+    id_counter++;
+  }
+  $( 'ul.factory-footer > li.circle-generator' ).eq(0).click(generateCircle);
 
 
-  // var getOffset = function () { $logo.text('<!--' + $( '#0' ).offset().top + '-->'); }
-  // $( 'ul.factory-footer > li.rectangle-generator' ).eq(0).click(getOffset);
+  var generateDiamond = function () {
+    var imgAttrs = { 'src': 'images/yellow-diamond.svg' };
+    var $nodeImage = $('<img>', imgAttrs);
+
+    var $nodeContainer = $('<li>', { 'id': id_counter, 'class': 'node-container' });
+    $nodeContainer.append($nodeImage);
+    $nodeContainer.draggable(nodeDraggableArgs);
+    $nodeContainer.draggable('disable');
+
+    $( '.editor-pane' ).eq(0).prepend($nodeContainer);
+
+    id_counter++;
+  }
+  $( 'ul.factory-footer > li.diamond-generator' ).eq(0).click(generateDiamond);
 });

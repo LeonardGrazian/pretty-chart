@@ -10,7 +10,7 @@
 <body>
 
   <div class='header'>
-    <div class='logo'></div>
+    <div class='logo'><img src='images/logo.svg' /></div>
     <div class='subscribe-button'>Subscribe</div>
   </div>
 
@@ -18,23 +18,38 @@
 
     <div class='maker-factory-container'>
       <div class='maker-factory'>
-        <ul class='factory-header'>
-          <li class='opt-button'>Font</li>
-          <li class='opt-button'>Text Size</li>
-          <li class='opt-button'>Bold</li>
-          <li class='opt-button'>Italicize</li>
-          <li class='opt-button'>Underline</li>
-          <li class='opt-button'>Fill</li>
-          <li class='opt-button'>Text Color</li>
-        </ul>
+        <div class='factory-header-container'>
+          <ul class='factory-header'>
+            <li class='dropdowns'>
+              <select class='font-dropdown'>
+                <option>Helvetica</option>
+                <option>Times New Roman</option>
+                <option>Sans-Serif</option>
+              </select>
+
+              <select class='textsize-dropdown'>
+                <option>8</option>
+                <option>12</option>
+                <option>20</option>
+              </select>
+            </li>
+            <li class='buttons'>
+              <div class='margin'></div>
+              <div class='bold-button'><img src='images/bold.svg' /></div>
+              <div class='italic-button'><img src='images/italic.svg' /></div>
+              <div class='underline-button'><img src='images/underline.svg' /></div>
+              <div class='margin'></div>
+            </li>
+          </ul>
+        </div>
 
         <ul class='editor-pane'></ul>
 
         <ul class='factory-footer'>
-          <li class='square-generator'>Square</li>
-          <li class='diamond-generator'>Diamond</li>
-          <li class='triangle-generator'>Triangle</li>
-          <li class='rectangle-generator'>Rectangle</li>
+          <li class='square-generator'><img src='images/red-square.svg' /></li>
+          <li class='triangle-generator'><img src='images/green-triangle.svg' /></li>
+          <li class='circle-generator'><img src='images/blue-circle.svg' /></li>
+          <li class='diamond-generator'><img src='images/yellow-diamond.svg' /></li>
         </ul>
       </div>
 
