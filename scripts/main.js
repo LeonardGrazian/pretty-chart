@@ -45,6 +45,12 @@ $( document ).ready(function () {
   var $makerFactoryContainer = $( '.maker-factory-container' ).eq(0);
   var $makerSandbox = $( '.maker-sandbox' ).eq(0);
   var $editorPane = $( '.editor-pane' ).eq(0);
+  var $subscribeButton = $( '.subscribe-button' ).eq(0);
+  var $loginForm = $( '.login-form' ).eq(0);
+  var $loginPart1 = $( '.login-part1' ).eq(0);
+  var $loginPart2 = $( '.login-part2' ).eq(0);
+  var $nextButton = $( '.next-button' ).eq(0);
+  var $prevButton = $( '.prev-button' ).eq(0);
   var $logo = $( '.logo' ).eq(0);
 
 
@@ -86,6 +92,40 @@ $( document ).ready(function () {
   var editorSortableArgs = { 'containment': 'body' };
   $editorPane.sortable(editorSortableArgs);
 
+
+  // Make Login Form a Pop-Up
+  var popUpArgs = { 'title': 'Subscribe Here!',
+                      'width': 500,
+                      'position': {
+                        'my': 'top',
+                        'at': 'top+225'
+                      },
+                      'autoOpen': false,
+                      'closeOnEscape': true,
+                      'resizable': false,
+                      'draggable': false,
+                      'show': {
+                        'effect': 'blind',
+                        'duration': 150
+                      }};
+  $loginForm.dialog(popUpArgs);
+
+
+  // Make Login pop up on subscribe button click
+  $subscribeButton.click(function () {
+    $loginForm.dialog( 'open' );
+  });
+
+
+  // Cycle through Form
+  $nextButton.click(function () {
+    $loginPart2.removeClass('hide-form');
+    $loginPart1.addClass('hide-form');
+  });
+  $prevButton.click(function () {
+    $loginPart1.removeClass('hide-form');
+    $loginPart2.addClass('hide-form');
+  });
 
   // Create Square Node
   var id_counter = 0;

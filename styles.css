@@ -272,3 +272,30 @@ body {
   background-color: #E6E8E6;
   flex: 1;
 }
+
+.ui-dialog {
+  /*background-color: red;*/
+  border-radius: 5px;
+  position: absolute;
+  top: 0px;
+}
+
+.ui-dialog-titlebar-close {
+  display: none;
+}
+
+.login-part1,
+.login-part2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.login-part1 > input[type='text'],
+.login-part2 > input[type='text'] {
+  border-radius: 5px;
+}
+
+.hide-form {
+  display: none;
+}
