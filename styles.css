@@ -284,6 +284,12 @@ body {
   display: none;
 }
 
+.ui-dialog-title {
+  padding-left: 165px;
+  /*text-align: center;*/
+  width: 100%;
+}
+
 .login-part1,
 .login-part2 {
   display: flex;
@@ -291,9 +297,26 @@ body {
   justify-content: flex-start;
 }
 
+.login-part1 > label,
+.login-part2 > label {
+  margin-bottom: 5px;
+}
+
+.next-button,
+.prev-button {
+  width: 75px;
+  height: 25px;
+}
+
+.register-button {
+  width: 110px;
+  height: 35px;
+}
+
 .login-part1 > input[type='text'],
 .login-part2 > input[type='text'] {
   border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 .hide-form {
