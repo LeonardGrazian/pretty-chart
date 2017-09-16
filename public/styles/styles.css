@@ -35,6 +35,10 @@ body {
   flex-direction: column;
 }
 
+h1 {
+  color: red;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
