@@ -1,0 +1,23 @@
+{
+  "name": "pretty-chart",
+  "version": "1.0.0",
+  "description": "Make some nice lookin flow charts",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeonardGrazian/pretty-chart.git"
+  },
+  "author": "Leonard Grazian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeonardGrazian/pretty-chart/issues"
+  },
+  "homepage": "https://github.com/LeonardGrazian/pretty-chart#readme",
+  "dependencies": {
+    "express": "*",
+    "express-handlebars": "*"
+  }
+}
